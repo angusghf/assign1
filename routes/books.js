@@ -5,11 +5,12 @@ const router = express.Router();
 
 // List of books with initial items
 const books = [
-    { id: 1, title: 'test1', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' },
-    { id: 2, title: 'test2', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' },
-    { id: 3, title: 'test3', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' },
-    { id: 4, title: 'test4', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' }
+    { id: 1, title: 'Darkly Dreaming Dexter', author: "Jeff Lindsay", imageURL: '/assets/darklydreamingdexter.jpg', year: '2004' },
+    { id: 2, title: 'Dearly Devoted Dexter', author: "Jeff Lindsay", imageURL: '/assets/dearlydevoteddexter.jpg', year: '2005' },
+    { id: 3, title: 'Dexter in the Dark', author: "Jeff Lindsay", imageURL: '/assets/dexterinthedark.jpg', year: '2007' },
+    { id: 4, title: 'Dexter by Design', author: "Jeff Lindsay", imageURL: '/assets/dexterbydesign.jpg', year: '2009' }
 ];
+
 
 //Find and Return a a Book
 function findBookById(req, res, next) {
