@@ -9,13 +9,19 @@ const books = [
     { id: 3, title: 'test3', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' },
     { id: 4, title: 'test4', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' }
 ];
+
+//Find and Return a a Book
+function findBookById(req, res, next) {
+    console.log(req.params.id);
+    next();
+}
  
 // Get all books
 app.get('/books', (req, res) => {
     res.send(books);
 });        
 
-app.get('/books/:id', (req, res) => {
+app.get('/books/:id', findBookById,  (req, res) => {
 
     const requestedId = Number(req.params.id);
 
