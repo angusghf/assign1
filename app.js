@@ -2,6 +2,12 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+// 3rd party Middleware
+const bodyParser = require("body-parser");
+
+// parse every req sent to server
+// The parsed data will be converted
+
 // List of books with initial items
 const books = [
     { id: 1, title: 'test1', author: "Jeff Lindsay", imageURL: 'XYZIMG', year: 'ABCDATE' },
