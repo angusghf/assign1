@@ -29,18 +29,17 @@ function findBookById(req, res, next) {
     } else {
         res.status(404).send("Book Not Found!");
     }
-
-    next();
 }
+
+
+
+
 
 // Get all books
 app.get('/books', (req, res) => res.send(books));
+app.get('/books/:id', findBookById, (req, res) => res.send(req.book));
 
-app.get('/books/:id', findBookById, (req, res) => {
-    res.send(req.book);
-});
-
-// Add a new reminder via POST
+// Add a new book via POST
 app.post('/books', (req, res) => {
     // Wait for the request body to be fully parsed
     let body = '';
@@ -49,38 +48,25 @@ app.post('/books', (req, res) => {
     });
     req.on('end', () => {
 
-        const reminder = JSON.parse(body);
-        reminder.id = books.length + 1;
-        books.push(reminder);
+        const book = JSON.parse(body);
+        book.id = books.length + 1;
+        books.push(book);
 
-        // Respond with a success message and the newly added reminder
+        // Respond with a success message and the newly added book
         // @NOTE: a 201 status code is used for items that are created successfully
-        res.status(201).send(reminder);
+        res.status(201).send(book);
 
     });
 });
 
-// Delete a reminder by id via a DELETE request
+// Delete a book by id via a DELETE request
 app.delete('/books/:id', findBookById, (req, res) => {
 
-    // Convert the id to a number
-    const requestedId = Number(req.params.id);
+    // removed the todo object from the group
+    books.splice((req.book.id - 1), 1);
 
-    // Use Array.find to get the reminder with the matching id or undefined
-    const requestedData = books.find(reminderInList => reminderInList.id === requestedId);
-
-    // If the reminder is not found, requestData will be undefined
-    if (requestedData !== undefined) {
-        // Find the index of the reminder in the array and remove it
-        books.splice(requestedData.id, 1);
-
-        // Respond with a success message
-        res.status(204).send('Reminder deleted');
-
-    } else {
-        // Respond with a 404 status and a message
-        res.status(404).send('Reminder not found');
-    }
+    // Respond with a success message
+    res.status(204).send('Book deleted');
 
 });
 
@@ -94,30 +80,13 @@ app.put('/books/:id', findBookById, (req, res) => {
 
     req.on('end', () => {
 
-        // Convert the id to a number
-        const requestedId = Number(req.params.id);
+        const updatedData = JSON.parse(body);
+        req.book.text = updatedData.text;
 
-        // Use Array.find to get the reminder with the matching id or undefined
-        const reminderData = books.find(reminderInList => reminderInList.id === requestedId);
-
-        // If the reminder is found, update the text property
-        if (reminderData !== undefined) {
-            const updatedData = JSON.parse(body);
-            reminderData.text = updatedData.text;
-
-            // Respond with the updated reminder and a status of 200
-            res.send(reminderData);
-
-        } else {
-
-            // If the reminder is not found, respond with a 404 status
-            res.status(404).send('Reminder not found');
-
-        }
+        // Respond with the updated book and a status of 200
+        res.send(req.book);
 
     });
-
-
 });
 
 // Start the server
