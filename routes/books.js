@@ -1,4 +1,6 @@
 const express = require("express");
+
+// create a new group of routes
 const router = express.Router();
 
 // List of books with initial items
@@ -35,26 +37,18 @@ function findBookById(req, res, next) {
 
 
 // Get all books
+// all of these used to be app.get/post/put/delete
+// they now now become router.get/post/put/delete
 router.get('/books', (req, res) => res.send(books));
 router.get('/books/:id', findBookById, (req, res) => res.send(req.book));
 
 // Add a new book via POST
 router.post('/books', (req, res) => {
-
-    // parse the json sent to this url
-    // ie if {"text": "test"}
-    // then we add a new property of id
-    // ie book.id
-    // {"text" : "test", "id" : 5 }
-    // then we add it to the end of the array and send it back
-    const book = req.body;
+    const book = req.body
     book.id = books.length + 1;
     books.push(book);
 
-    // Respond with a success message and the newly added book
-    // @NOTE: a 201 status code is used for items that are created successfully
     res.status(201).send(book);
-
 });
 
 // Delete a book by id via a DELETE request
@@ -78,4 +72,5 @@ router.put('/books/:id', findBookById, (req, res) => {
 
 });
 
+// export router we made
 module.exports = router;
